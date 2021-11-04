@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { addPosts, getPosts } from '../Api/utils/utils'
+import { addPosts, getPosts, editPosts } from '../Api/utils/utils'
 import {
     Button,
     TextField,
@@ -38,9 +38,32 @@ function Posts() {
         setValue({ ...value, [e.target.name]: e.target.value })
     }
 
+    const handleChangePost = (id, e) => {
+        let nam = e.target.name
+        let newArr = [].concat(items)
+        newArr.map((item, index) => {
+            if (item.id === id) {
+                if (nam === `postTitle${id}`) {
+                    newArr[index] = {
+                        ...newArr[index],
+                        title: e.target.value
+                    }
+                } else {
+                    newArr[index] = {
+                        ...newArr[index],
+                        body: e.target.value
+                    }
+                }
+
+            }
+        })
+
+        setItems(newArr)
+    }
+
     const handleClick = async (e) => {
-    
-       await addPosts(value)
+
+        await addPosts(value)
             .then((res) => {
                 const newPost = {
                     id: res.data.id,
@@ -67,11 +90,28 @@ function Posts() {
             })
     }
 
+
     const handleDeletePost = (id) => {
 
     }
 
-    const handleEditPost = (id) => {
+    const handleEditPost = async (id) => {
+        items.map(item => {
+            if (item.id === id) {
+                const params = {
+                    title: item.title,
+                    body: item.body
+                }
+                editPosts(id, params)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
+        })
+
 
     }
 
@@ -126,10 +166,12 @@ function Posts() {
                                             <Typography gutterBottom variant='h5' component='h2'>
                                                 <TextField
                                                     id={item.id.toString()}
+                                                    name={`postTitle${item.id}`}
                                                     disabled={disabled}
                                                     variant="standard"
                                                     value={item.title}
                                                     className={classes.input}
+                                                    onChange={e => handleChangePost(item.id, e)}
                                                 />
                                             </Typography>
                                             <Typography
@@ -139,12 +181,12 @@ function Posts() {
                                                 className={classes.description}
                                             >
                                                 <textarea
-                                                    name=""
-                                                    id=""
+                                                    name={`postBody${item.id}`}
+                                                    id={`postBody${item.id}`}
                                                     value={item.body}
-                                                    onChange={handleInput}
                                                     disabled={disabled}
                                                     className={classes.textarea}
+                                                    onChange={e => handleChangePost(item.id, e)}
                                                 >
 
                                                 </textarea>
@@ -152,39 +194,39 @@ function Posts() {
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                        <div style={{width: '100%'}}>
-                                        {disabled ?
-                                            <Grid container spacing={6} alignItems='center'>
-                                                <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <EditIcon onClick={e => setDisabled(false)} />
+                                        <div style={{ width: '100%' }}>
+                                            {disabled ?
+                                                <Grid container spacing={6} alignItems='center'>
+                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                        <EditIcon onClick={e => setDisabled(false)} />
+                                                    </Grid>
+                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                        <DeleteIcon onClick={e => handleDeletePost(item.id)} />
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <DeleteIcon onClick={e => handleDeletePost(item.id)} />
+                                                :
+                                                <Grid container spacing={6} alignItems='center'>
+                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                        <CancelPresentationIcon onClick={e => setDisabled(true)} />
+                                                    </Grid>
+                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                        <SendIcon onClick={e => handleEditPost(item.id)} />
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                            :
-                                            <Grid container spacing={6} alignItems='center'>
-                                                <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <CancelPresentationIcon onClick={e => setDisabled(true)} />
-                                                </Grid>
-                                                <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <SendIcon onClick={e => handleEditPost(item.id)} />
-                                                </Grid>
-                                            </Grid>
 
-                                        }
-                                        <Accordion className={classes.accordion}>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon />}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                            >
-                                                <Typography>Комменты</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <Comments id={item.id} />
-                                            </AccordionDetails>
-                                        </Accordion>
+                                            }
+                                            <Accordion className={classes.accordion}>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    aria-controls="panel1a-content"
+                                                    id="panel1a-header"
+                                                >
+                                                    <Typography>Комменты</Typography>
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    <Comments id={item.id} />
+                                                </AccordionDetails>
+                                            </Accordion>
                                         </div>
                                     </CardActions>
                                 </Card>
