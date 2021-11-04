@@ -36,11 +36,6 @@
       "body": "Body 7"
     },
     {
-      "id": 8,
-      "title": "Post 8",
-      "body": "Body 8"
-    },
-    {
       "id": 9,
       "title": "Post 9",
       "body": "Body 9"
@@ -69,16 +64,6 @@
       "title": "new post2",
       "body": "this is new post2",
       "id": 14
-    },
-    {
-      "title": "new post3",
-      "body": "this is new post3",
-      "id": 15
-    },
-    {
-      "title": "new post4",
-      "body": "this is new post4",
-      "id": 16
     }
   ],
   "comments": [
@@ -116,11 +101,6 @@
       "id": 7,
       "postId": 7,
       "text": "comment 7"
-    },
-    {
-      "id": 8,
-      "postId": 8,
-      "text": "comment 8"
     },
     {
       "id": 9,

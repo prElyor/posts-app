@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { addPosts, getPosts, editPosts } from '../Api/utils/utils'
+import { addPosts, getPosts, editPosts, deletePosts, deleteComments } from '../Api/utils/utils'
 import {
     Button,
     TextField,
@@ -91,11 +91,19 @@ function Posts() {
     }
 
 
-    const handleDeletePost = (id) => {
-
+    const handleDeletePost = async (id) => {
+        // вообще надо было удалить и комменты при удалении постов
+        await deletePosts(id)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     const handleEditPost = async (id) => {
+        // Я бы редактирование поста сделал бы тут posts/:id, но в задаче написано что в данной странице надо редактировать посты
         items.map(item => {
             if (item.id === id) {
                 const params = {

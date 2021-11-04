@@ -7,7 +7,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import SendIcon from '@mui/icons-material/Send';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function Comments({ id }) {
     const [comments, setComments] = useState([])
