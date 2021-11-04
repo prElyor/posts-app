@@ -54,11 +54,11 @@ function Posts() {
                         body: e.target.value
                     }
                 }
-
+                setItems(newArr)
             }
+            return false
         })
 
-        setItems(newArr)
     }
 
     const handleClick = async (e) => {
@@ -104,12 +104,13 @@ function Posts() {
                 }
                 editPosts(id, params)
                     .then(res => {
-                        console.log(res);
+                        setDisabled(true)
                     })
                     .catch(err => {
                         console.log(err);
                     })
             }
+            return false
         })
 
 
