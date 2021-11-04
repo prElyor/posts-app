@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getPosts } from '../Api/utils/utils'
+import { addPosts, getPosts } from '../Api/utils/utils'
 import {
     Button,
     TextField,
@@ -38,8 +38,22 @@ function Posts() {
         setValue({ ...value, [e.target.name]: e.target.value })
     }
 
-    const handleClick = (e) => {
-
+    const handleClick = async (e) => {
+    
+       await addPosts(value)
+            .then((res) => {
+                const newPost = {
+                    id: res.data.id,
+                    title: res.data.title,
+                    body: res.data.body
+                }
+                setItems(prev => {
+                    return [...prev, newPost]
+                })
+            })
+            .catch(err => {
+                console.log('add post err', err);
+            })
     }
 
     const getAllPosts = () => {
