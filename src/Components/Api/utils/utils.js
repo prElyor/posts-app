@@ -8,4 +8,5 @@ export const deletePosts = (id) => httpReq.delete(`/posts/${id}`)
 
 export const getCommentsByPostId = (postId) => httpReq.get(`/comments`, postId)
 export const addComment = (params) => httpReq.post(`/comments`, params)
-export const deleteComments = (params) => httpReq.delete(`/comments`, params)
+export const editComment = (id, params) => httpReq.put(`/comments/${id}`, params)
+export const deleteComments = (id) => httpReq.delete(`/comments/${id}`)

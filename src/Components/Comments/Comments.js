@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { addComment, getCommentsByPostId } from '../Api/utils/utils'
+import { addComment, deleteComments, editComment, getCommentsByPostId } from '../Api/utils/utils'
 import { TextField, Grid, Button } from "@mui/material"
 import classes from './Comments.module.css'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -13,7 +13,7 @@ function Comments({ id }) {
     const [value, setValue] = useState({
         text: ''
     })
-    const [commentsEdit, setCommentsEdit] = useState({})
+ 
     const [disabled, setDisabled] = useState(true)
 
     const getAllCommentByPostId = (id) => {
@@ -29,8 +29,18 @@ function Comments({ id }) {
             })
     }
 
-    const handleChange = (e) => {
-        setCommentsEdit({ ...commentsEdit, [e.target.name]: e.target.value })
+    const handleChange = (e, commentId) => {
+        let newArr = [].concat(comments)
+        newArr.map((item, index) => {
+            if(commentId === item.id){
+                newArr[index] = {
+                    ...newArr[index],
+                    text: e.target.value
+                }
+                setComments(newArr)
+            }
+            return false
+        })
     }
 
     const handleInputAddComment = (e) => {
@@ -39,12 +49,39 @@ function Comments({ id }) {
         })
     }
 
-    const handleDeleteComment = (id) => {
-
+    const handleDeleteComment = async (id) => {
+        await deleteComments(id)
+            .then(res => {
+                let newArr = [].concat(comments)
+                newArr.map((item, index) => {
+                    if(item.id === id){
+                        newArr.splice(index, 1)
+                        setComments(newArr)
+                    }
+                    return false
+                })
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
-    const handleEditComment = (id) => {
-
+    const handleEditComment = (commentId) => {
+        comments.map(item => {
+            if (item.id === commentId) {
+                const params = {
+                    postId: id,
+                    text: item.text
+                }
+                editComment(commentId, params)
+                    .then(res => {
+                        setDisabled(true)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+                }
+                return false
+            })
     }
 
     const handleAddComment = async () => {
@@ -100,8 +137,8 @@ function Comments({ id }) {
                                         <TextField
                                             variant="standard"
                                             name={`comment${item.id}`}
-                                            defaultValue={item.text}
-                                            onChange={handleChange}
+                                            value={item.text}
+                                            onChange={e => handleChange(e, item.id)}
                                             disabled={false}
                                         />
 

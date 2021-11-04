@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { addPosts, getPosts, editPosts, deletePosts, deleteComments } from '../Api/utils/utils'
+import { addPosts, getPosts, editPosts, deletePosts } from '../Api/utils/utils'
 import {
     Button,
     TextField,
@@ -18,13 +18,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import SendIcon from '@mui/icons-material/Send';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { PostStyles } from './PostStyles'
 import Comments from '../Comments/Comments';
+import { useHistory } from 'react-router';
 
 
 
 function Posts() {
     const classes = PostStyles()
+    const history = useHistory()
 
     const [value, setValue] = useState({
         title: '',
@@ -88,6 +91,10 @@ function Posts() {
             .catch(err => {
                 console.log(err);
             })
+    }
+
+    const handleRedirect = (id) => {
+        history.push(`/posts/${id}`)
     }
 
 
@@ -206,19 +213,25 @@ function Posts() {
                                         <div style={{ width: '100%' }}>
                                             {disabled ?
                                                 <Grid container spacing={6} alignItems='center'>
-                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                    <Grid item xs={4} className={classes.iconWrapper}>
+                                                        <RemoveRedEyeIcon onClick={e => handleRedirect(item.id)} />
+                                                    </Grid>
+                                                    <Grid item xs={4} className={classes.iconWrapper}>
                                                         <EditIcon onClick={e => setDisabled(false)} />
                                                     </Grid>
-                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                    <Grid item xs={4} className={classes.iconWrapper}>
                                                         <DeleteIcon onClick={e => handleDeletePost(item.id)} />
                                                     </Grid>
                                                 </Grid>
                                                 :
                                                 <Grid container spacing={6} alignItems='center'>
-                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                    <Grid item xs={4} className={classes.iconWrapper}>
+                                                        <RemoveRedEyeIcon onClick={e => handleRedirect(item.id)} />
+                                                    </Grid>
+                                                    <Grid item xs={4} className={classes.iconWrapper}>
                                                         <CancelPresentationIcon onClick={e => setDisabled(true)} />
                                                     </Grid>
-                                                    <Grid item xs={6} className={classes.iconWrapper}>
+                                                    <Grid item xs={4} className={classes.iconWrapper}>
                                                         <SendIcon onClick={e => handleEditPost(item.id)} />
                                                     </Grid>
                                                 </Grid>
