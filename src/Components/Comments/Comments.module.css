@@ -1,0 +1,18 @@
+.commentsWrapper {
+    margin-top: 15px;
+}
+
+.comment {
+    width: 100%;
+}
+
+.iconWrapper {
+    text-align: center;
+    margin-top: 20px !important;
+}
+
+.iconWrapper > svg {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}

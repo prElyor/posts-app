@@ -9,12 +9,17 @@ import {
     CardActions,
     CardContent,
     Typography,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails
 } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import SendIcon from '@mui/icons-material/Send';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { PostStyles } from './PostStyles'
+import Comments from '../Comments/Comments';
 
 
 
@@ -90,7 +95,7 @@ function Posts() {
                         color='primary'
                         className={classes.btn}
                         onClick={handleClick}>
-                        Добавить пость
+                        Добавить пост
                     </Button>
                 </Grid>
             </Grid>
@@ -133,26 +138,40 @@ function Posts() {
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                    {disabled ?
-                                        <Grid container spacing={6} alignItems='center'>
+                                        <div style={{width: '100%'}}>
+                                        {disabled ?
+                                            <Grid container spacing={6} alignItems='center'>
                                                 <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <EditIcon onClick={e => setDisabled(false)}/>
+                                                    <EditIcon onClick={e => setDisabled(false)} />
                                                 </Grid>
                                                 <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <DeleteIcon onClick={e => handleDeletePost(item.id)}/>
+                                                    <DeleteIcon onClick={e => handleDeletePost(item.id)} />
                                                 </Grid>
-                                        </Grid>
-                                        :
-                                        <Grid container spacing={6} alignItems='center'>
+                                            </Grid>
+                                            :
+                                            <Grid container spacing={6} alignItems='center'>
                                                 <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <CancelPresentationIcon onClick={e => setDisabled(true)}/>
+                                                    <CancelPresentationIcon onClick={e => setDisabled(true)} />
                                                 </Grid>
                                                 <Grid item xs={6} className={classes.iconWrapper}>
-                                                    <SendIcon onClick={e => handleEditPost(item.id)}/>
+                                                    <SendIcon onClick={e => handleEditPost(item.id)} />
                                                 </Grid>
-                                        </Grid>
+                                            </Grid>
 
                                         }
+                                        <Accordion className={classes.accordion}>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel1a-content"
+                                                id="panel1a-header"
+                                            >
+                                                <Typography>Комменты</Typography>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <Comments id={item.id} />
+                                            </AccordionDetails>
+                                        </Accordion>
+                                        </div>
                                     </CardActions>
                                 </Card>
                             </Grid>

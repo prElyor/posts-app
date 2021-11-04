@@ -61,5 +61,9 @@ export const PostStyles = makeStyles((theme) => ({
         width: '30px',
         cursor: 'pointer'
       }
+    },
+    accordion: {
+      marginTop: '25px !important',
+      width: '100% '
     }
   }));

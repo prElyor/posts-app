@@ -121,6 +121,11 @@
       "id": 12,
       "postId": 12,
       "text": "comment 12"
+    },
+    {
+      "id": 13,
+      "postId": 12,
+      "text": "comment 12"
     }
   ]
 }
