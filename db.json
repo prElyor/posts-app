@@ -126,6 +126,16 @@
       "id": 13,
       "postId": 12,
       "text": "comment 12"
+    },
+    {
+      "postId": 14,
+      "text": "new comment",
+      "id": 14
+    },
+    {
+      "postId": 14,
+      "text": "new comment1",
+      "id": 15
     }
   ]
 }

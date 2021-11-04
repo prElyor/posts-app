@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getCommentsByPostId } from '../Api/utils/utils'
+import { addComment, getCommentsByPostId } from '../Api/utils/utils'
 import { TextField, Grid, Button } from "@mui/material"
 import classes from './Comments.module.css'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -10,6 +10,9 @@ import SendIcon from '@mui/icons-material/Send';
 
 function Comments({ id }) {
     const [comments, setComments] = useState([])
+    const [value, setValue] = useState({
+        text: ''
+    })
     const [commentsEdit, setCommentsEdit] = useState({})
     const [disabled, setDisabled] = useState(true)
 
@@ -30,12 +33,33 @@ function Comments({ id }) {
         setCommentsEdit({ ...commentsEdit, [e.target.name]: e.target.value })
     }
 
+    const handleInputAddComment = (e) => {
+        setValue({
+            text: e.target.value
+        })
+    }
+
     const handleDeleteComment = (id) => {
 
     }
 
     const handleEditComment = (id) => {
 
+    }
+
+    const handleAddComment = async () => {
+        const params = {
+            postId: id,
+            text: value.text
+        }
+        await addComment(params)
+            .then(res => {
+                setComments(prev => {
+                    return [...prev, res.data]
+                })
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     useEffect(() => {
@@ -48,10 +72,12 @@ function Comments({ id }) {
                     <TextField
                         variant="standard"
                         label="Добавить комментарий"
+                        value={value.text}
+                        onChange={handleInputAddComment}
                     />
                 </Grid>
                 <Grid item xs={2}>
-                    <Button variant="contained" color='primary'>
+                    <Button variant="contained" color='primary' onClick={handleAddComment}>
                         <AddCircleOutlineIcon />
                     </Button>
                 </Grid>
