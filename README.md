@@ -1,17 +1,17 @@
 ## Posts app
 На задачу потратил около 8 часов
 ### Get started
-1.
+###### 1
     git clone https://github.com/prElyor/posts-app.git
 
-2.
+###### 2
     npm i
-or
+###### or
     yarn add
 
-3 
+###### 3
     npm run start
-or
+###### or
     yarn start
 
 
@@ -47,3 +47,6 @@ or
 
 ##### task_12
 Есть удаление и редактирование комментарий, а также добавил иконку глаз чтобы детально посмотреть пост
+
+##### task_11
+менял readme
