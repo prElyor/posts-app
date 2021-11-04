@@ -1,7 +1,9 @@
 import axios from 'axios'
+ 
+const baseUrl = 'http://localhost:3000'
 
 export const  httpReq = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: baseUrl,
     timeout: 30000,
     mode: 'cors',
     headers: {
